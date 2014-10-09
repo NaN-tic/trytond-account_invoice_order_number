@@ -1,0 +1,15 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:account.invoice,number_order:"
+msgid "Order Number"
+msgstr "Número de comanda"
+
+msgctxt "field:account.invoice,requires_order_number:"
+msgid "Requires Order Number"
+msgstr "Requereix número de comanda"
+
+msgctxt "field:party.party,requires_order_number:"
+msgid "Requires order number"
+msgstr "Requereix número de comanda"
