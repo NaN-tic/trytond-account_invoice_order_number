@@ -13,7 +13,7 @@ class Invoice:
 
     number_order = fields.Char('Order Number', states={
             'readonly': Eval('state') != 'draft',
-            'required': ((Eval('state') != 'draft') &
+            'required': (Eval('state').in(['posted', 'paid']) &
                 Eval('requires_order_number')),
             },
         depends=['state', 'requires_order_number'])
