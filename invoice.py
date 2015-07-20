@@ -28,6 +28,11 @@ class Invoice:
     def search_requires_order_number(cls, name, clause):
         return [('party.requires_order_number',) + tuple(clause[1:])]
 
+    def _credit(self):
+        values = super(Invoice, self)._credit()
+        values['number_order'] = self.number_order
+        return values
+
 
 class Party:
     __name__ = 'party.party'
