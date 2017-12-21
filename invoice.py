@@ -5,11 +5,11 @@ from trytond.pool import PoolMeta
 from trytond.pyson import Eval
 
 __all__ = ['Invoice', 'Party']
-__metaclass__ = PoolMeta
 
 
 class Invoice:
     __name__ = 'account.invoice'
+    __metaclass__ = PoolMeta
 
     number_order = fields.Char('Order Number', states={
             'readonly': Eval('state') != 'draft',
@@ -19,22 +19,26 @@ class Invoice:
         depends=['state', 'requires_order_number'])
     requires_order_number = fields.Function(fields.Boolean(
             'Requires Order Number'),
-        'get_requires_order_number', searcher='search_requires_order_number')
+        'on_change_with_requires_order_number',
+        searcher='search_requires_order_number')
 
-    def get_requires_order_number(self, name):
-        return self.party.requires_order_number
+    @fields.depends('party')
+    def on_change_with_requires_order_number(self, name=None):
+        if self.party:
+            return self.party.requires_order_number
 
     @classmethod
     def search_requires_order_number(cls, name, clause):
         return [('party.requires_order_number',) + tuple(clause[1:])]
 
     def _credit(self):
-        values = super(Invoice, self)._credit()
-        values['number_order'] = self.number_order
-        return values
+        credit = super(Invoice, self)._credit()
+        credit.number_order = self.number_order
+        return credit
 
 
 class Party:
     __name__ = 'party.party'
+    __metaclass__ = PoolMeta
 
     requires_order_number = fields.Boolean('Requires order number')
