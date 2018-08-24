@@ -7,9 +7,8 @@ from trytond.pyson import Eval
 __all__ = ['Invoice', 'Party']
 
 
-class Invoice:
+class Invoice(metaclass=PoolMeta):
     __name__ = 'account.invoice'
-    __metaclass__ = PoolMeta
 
     number_order = fields.Char('Order Number', states={
             'readonly': Eval('state') != 'draft',
@@ -37,8 +36,7 @@ class Invoice:
         return credit
 
 
-class Party:
+class Party(metaclass=PoolMeta):
     __name__ = 'party.party'
-    __metaclass__ = PoolMeta
 
     requires_order_number = fields.Boolean('Requires order number')
