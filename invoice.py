@@ -30,8 +30,8 @@ class Invoice(metaclass=PoolMeta):
     def search_requires_order_number(cls, name, clause):
         return [('party.requires_order_number',) + tuple(clause[1:])]
 
-    def _credit(self):
-        credit = super(Invoice, self)._credit()
+    def _credit(self, **values):
+        credit = super(Invoice, self)._credit(**values)
         credit.number_order = self.number_order
         return credit
 
